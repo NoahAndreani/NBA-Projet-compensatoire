@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}{{ player.first_name }} {{ player.last_name }} - NBA App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>🏀 {{ player.first_name }} {{ player.last_name }}</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Informations personnelles</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Prénom:</strong></td>
+                                <td>{{ player.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nom:</strong></td>
+                                <td>{{ player.last_name }}</td>
+                            </tr>
+                            {% if player.position %}
+                            <tr>
+                                <td><strong>Position:</strong></td>
+                                <td><span class="badge bg-success">{{ player.position|format_position }}</span></td>
+                            </tr>
+                            {% endif %}
+                            {% if player.height %}
+                            <tr>
+                                <td><strong>Taille:</strong></td>
+                                <td>{{ player.height }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.weight %}
+                            <tr>
+                                <td><strong>Poids:</strong></td>
+                                <td>{{ player.weight }} lbs</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.jersey_number %}
+                            <tr>
+                                <td><strong>Numéro de maillot:</strong></td>
+                                <td><span class="badge bg-primary">#{{ player.jersey_number }}</span></td>
+                            </tr>
+                            {% endif %}
+                            {% if player.college %}
+                            <tr>
+                                <td><strong>Université:</strong></td>
+                                <td>🎓 {{ player.college }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.country %}
+                            <tr>
+                                <td><strong>Pays:</strong></td>
+                                <td>🌍 {{ player.country }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.draft_year %}
+                            <tr>
+                                <td><strong>Année de draft:</strong></td>
+                                <td>📅 {{ player.draft_year }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.draft_round %}
+                            <tr>
+                                <td><strong>Tour de draft:</strong></td>
+                                <td>{{ player.draft_round }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if player.draft_number %}
+                            <tr>
+                                <td><strong>Position de draft:</strong></td>
+                                <td>{{ player.draft_number }}e choix</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        {% if player.team %}
+        <div class="card" data-href="{{ url_for('team_detail', team_id=player.team.id) }}">
+            <div class="card-header">
+                <h5>🏟️ Équipe</h5>
+            </div>
+            <div class="card-body text-center">
+                <h4>{{ player.team.full_name }}</h4>
+                <p class="text-muted">{{ player.team.abbreviation }}</p>
+                <p><strong>Ville:</strong> {{ player.team.city }}</p>
+                <p><strong>Conférence:</strong> {{ player.team.conference }}</p>
+                <p><strong>Division:</strong> {{ player.team.division }}</p>
+                <small class="text-muted">Cliquez pour voir l'équipe</small>
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Aucune équipe assignée</h5>
+                <p class="text-muted">Ce joueur n'est actuellement assigné à aucune équipe.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('players') }}" class="btn btn-secondary">← Retour aux joueurs</a>
+</div>
+{% endblock %}

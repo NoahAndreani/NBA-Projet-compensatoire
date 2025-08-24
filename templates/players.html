@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Joueurs - NBA App{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>🏀 Joueurs NBA</h1>
+    <span class="badge bg-secondary">{{ players|length }} joueurs affichés</span>
+</div>
+
+<!-- Barre de recherche -->
+<div class="row mb-4">
+    <div class="col-md-8 col-lg-6">
+        <form method="GET" action="{{ url_for('players') }}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" 
+                       placeholder="🔍 Rechercher un joueur (ex: Stephen, Curry, LeBron, James...)" 
+                       value="{{ search_query or '' }}">
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+                {% if search_active %}
+                    <a href="{{ url_for('players') }}" class="btn btn-outline-secondary">Effacer</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if search_active %}
+    <div class="alert alert-info">
+        <strong>🔍 Recherche :</strong> "{{ search_query }}" 
+        {% if players|length > 0 %}
+            - {{ players|length }} résultat(s) trouvé(s)
+        {% else %}
+            - Aucun résultat trouvé
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if players %}
+    <div class="row">
+        {% for player in players %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100" data-href="{{ url_for('player_detail', player_id=player.id) }}">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ player.first_name }} {{ player.last_name }}</h5>
+                        
+                        <div class="row text-center mb-2">
+                            {% if player.jersey_number %}
+                                <div class="col-4">
+                                    <span class="badge bg-primary">#{{ player.jersey_number }}</span>
+                                </div>
+                            {% endif %}
+                            {% if player.position %}
+                                <div class="col-8">
+                                    <span class="badge bg-success">{{ player.position|format_position }}</span>
+                                </div>
+                            {% endif %}
+                            {% if player.height %}
+                                <div class="col-4">
+                                    <small class="text-muted">{{ player.height }}</small>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <hr>
+                        <small class="text-muted">
+                            {% if player.team %}
+                                <strong>{{ player.team.full_name }}</strong><br>
+                            {% endif %}
+                            {% if player.college %}
+                                🎓 {{ player.college }}<br>
+                            {% endif %}
+                            {% if player.country %}
+                                🌍 {{ player.country }}<br>
+                            {% endif %}
+                            {% if player.draft_year %}
+                                📅 Draft {{ player.draft_year }}
+                                {% if player.draft_round and player.draft_number %}
+                                    (R{{ player.draft_round }}-{{ player.draft_number }})
+                                {% endif %}
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Navigation par curseur -->
+    {% if meta and (meta.has_prev or meta.has_next) %}
+        <nav aria-label="Navigation des joueurs">
+            <ul class="pagination justify-content-center">
+                {% if meta.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('players', search=search_query if search_active else '') }}">← Début</a>
+                    </li>
+                {% endif %}
+                
+                {% if meta.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('players', cursor=meta.next_cursor, search=search_query if search_active else '') }}">Suivant →</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-warning text-center">
+        <h4>Aucun joueur trouvé</h4>
+        <p>Il semble qu'il y ait un problème avec l'API ou aucun joueur n'est disponible.</p>
+    </div>
+{% endif %}
+{% endblock %}

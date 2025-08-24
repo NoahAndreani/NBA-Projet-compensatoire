@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Équipes - NBA App{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>🏟️ Équipes NBA</h1>
+    <span class="badge bg-secondary">{{ teams|length }} équipes</span>
+</div>
+
+<!-- Barre de recherche -->
+<div class="row mb-4">
+    <div class="col-md-8 col-lg-6">
+        <form method="GET" action="{{ url_for('teams') }}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" 
+                       placeholder="🔍 Rechercher une équipe (ex: Lakers, Warriors, Boston...)" 
+                       value="{{ search_query or '' }}">
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+                {% if search_active %}
+                    <a href="{{ url_for('teams') }}" class="btn btn-outline-secondary">Effacer</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if search_active %}
+    <div class="alert alert-info">
+        <strong>🔍 Recherche :</strong> "{{ search_query }}" 
+        {% if teams|length > 0 %}
+            - {{ teams|length }} résultat(s) trouvé(s)
+        {% else %}
+            - Aucun résultat trouvé
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if teams %}
+    <div class="row">
+        {% for team in teams %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100" data-href="{{ url_for('team_detail', team_id=team.id) }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ team.full_name }}</h5>
+                        <p class="card-text">
+                            <span class="badge bg-primary">{{ team.abbreviation }}</span>
+                        </p>
+                        <p class="card-text text-muted">
+                            <small>{{ team.city }}</small><br>
+                            <small>{{ team.conference }} - {{ team.division }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning text-center">
+        <h4>Aucune équipe trouvée</h4>
+        <p>Il semble qu'il y ait un problème avec l'API ou aucune équipe n'est disponible.</p>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}{{ team.full_name }} - NBA App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>🏟️ {{ team.full_name }}</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Informations de l'équipe</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Nom complet:</strong></td>
+                                <td>{{ team.full_name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abréviation:</strong></td>
+                                <td><span class="badge bg-primary">{{ team.abbreviation }}</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ville:</strong></td>
+                                <td>{{ team.city }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Conférence:</strong></td>
+                                <td>{{ team.conference }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Division:</strong></td>
+                                <td>{{ team.division }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h3>👥 Joueurs de l'équipe</h3>
+    {% if players %}
+        <div class="row">
+            {% for player in players %}
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card" data-href="{{ url_for('player_detail', player_id=player.id) }}">
+                        <div class="card-body">
+                            <h6 class="card-title text-center">{{ player.first_name }} {{ player.last_name }}</h6>
+                            
+                            <div class="text-center mb-2">
+                                {% if player.jersey_number %}
+                                    <span class="badge bg-primary">#{{ player.jersey_number }}</span>
+                                {% endif %}
+                                {% if player.position %}
+                                    <span class="badge bg-success">{{ player.position|format_position }}</span>
+                                {% endif %}
+                            </div>
+                            
+                            <small class="text-muted">
+                                {% if player.height %}
+                                    📏 {{ player.height }}<br>
+                                {% endif %}
+                                {% if player.college %}
+                                    🎓 {{ player.college }}<br>
+                                {% endif %}
+                                {% if player.country %}
+                                    🌍 {{ player.country }}
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p>Aucun joueur trouvé pour cette équipe ou les données ne sont pas disponibles.</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('teams') }}" class="btn btn-secondary">← Retour aux équipes</a>
+</div>
+{% endblock %}

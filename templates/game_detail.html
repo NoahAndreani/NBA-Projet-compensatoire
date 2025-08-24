@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.home_team.abbreviation }} vs {{ game.visitor_team.abbreviation }} - NBA App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1>🏀 Match NBA</h1>
+                <h3>{{ game.home_team.abbreviation }} vs {{ game.visitor_team.abbreviation }}</h3>
+                <p class="text-muted">{{ game.date|format_date }}</p>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-5">
+                        <h4>🏟️ Équipe à domicile</h4>
+                        <h3>{{ game.home_team.full_name }}</h3>
+                        {% if game.home_team_score is not none %}
+                            <h2><span class="badge bg-primary">{{ game.home_team_score }}</span></h2>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <h2 class="text-muted">VS</h2>
+                    </div>
+                    <div class="col-md-5">
+                        <h4>✈️ Équipe visiteuse</h4>
+                        <h3>{{ game.visitor_team.full_name }}</h3>
+                        {% if game.visitor_team_score is not none %}
+                            <h2><span class="badge bg-danger">{{ game.visitor_team_score }}</span></h2>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if game.season %}
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <h5>Informations du match</h5>
+                            <table class="table table-borderless mx-auto" style="max-width: 400px;">
+                                <tr>
+                                    <td><strong>Saison:</strong></td>
+                                    <td>{{ game.season }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date:</strong></td>
+                                    <td>{{ game.date|format_date }}</td>
+                                </tr>
+                                {% if game.status %}
+                                <tr>
+                                    <td><strong>Statut:</strong></td>
+                                    <td>{{ game.status }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if game.period %}
+                                <tr>
+                                    <td><strong>Période:</strong></td>
+                                    <td>{{ game.period }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if game.time %}
+                                <tr>
+                                    <td><strong>Temps:</strong></td>
+                                    <td>{{ game.time }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if game.postseason %}
+                                <tr>
+                                    <td><strong>Playoffs:</strong></td>
+                                    <td>{{ "Oui" if game.postseason else "Non" }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card" data-href="{{ url_for('team_detail', team_id=game.home_team.id) }}">
+            <div class="card-header">
+                <h5>🏟️ {{ game.home_team.full_name }}</h5>
+            </div>
+            <div class="card-body text-center">
+                <h4>{{ game.home_team.abbreviation }}</h4>
+                <p><strong>Ville:</strong> {{ game.home_team.city }}</p>
+                <p><strong>Conférence:</strong> {{ game.home_team.conference }}</p>
+                <p><strong>Division:</strong> {{ game.home_team.division }}</p>
+                <small class="text-muted">Cliquez pour voir l'équipe</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card" data-href="{{ url_for('team_detail', team_id=game.visitor_team.id) }}">
+            <div class="card-header">
+                <h5>✈️ {{ game.visitor_team.full_name }}</h5>
+            </div>
+            <div class="card-body text-center">
+                <h4>{{ game.visitor_team.abbreviation }}</h4>
+                <p><strong>Ville:</strong> {{ game.visitor_team.city }}</p>
+                <p><strong>Conférence:</strong> {{ game.visitor_team.conference }}</p>
+                <p><strong>Division:</strong> {{ game.visitor_team.division }}</p>
+                <small class="text-muted">Cliquez pour voir l'équipe</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('games') }}" class="btn btn-secondary">← Retour aux matchs</a>
+</div>
+{% endblock %}
