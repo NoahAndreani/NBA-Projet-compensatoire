@@ -5,9 +5,16 @@ Une application web Flask pour consulter les données NBA via l'API BallDontLie.
 ## 🏀 Fonctionnalités
 
 - **Authentification** : Système de connexion et création de compte
-- **Joueurs** : Liste et détails des joueurs NBA
-- **Équipes** : Liste et détails des équipes NBA  
-- **Matchs** : Liste et détails des matchs NBA
+- **Joueurs** : Liste et détails complets des joueurs NBA avec toutes leurs statistiques
+- **Équipes** : Liste et détails des équipes NBA avec leurs joueurs
+- **Matchs** : Liste et détails des matchs NBA avec navigation complète
+- **🔍 Recherche avancée** : 
+  - Recherche de joueurs par nom ou prénom
+  - Recherche d'équipes par nom, ville ou abréviation  
+  - Recherche de matchs par date (plusieurs formats supportés)
+- **📱 Interface moderne** : Design responsive avec Bootstrap 5
+- **🧭 Navigation intelligente** : Système de curseur pour parcourir toutes les données
+- **📊 Informations détaillées** : Positions expliquées, données draft, universités, etc.
 
 ## 🚀 Installation
 
@@ -30,6 +37,10 @@ Une application web Flask pour consulter les données NBA via l'API BallDontLie.
 
 4. **Lancer l'application**
    ```bash
+   python run_app.py
+   ```
+   ou
+   ```bash
    python app.py
    ```
 
@@ -42,9 +53,13 @@ Une application web Flask pour consulter les données NBA via l'API BallDontLie.
 ```
 NBA-Projet-compensatoire/
 ├── app.py                 # Application Flask principale
+├── run_app.py            # Script de démarrage recommandé
+├── test_app.py           # Tests de l'application
 ├── requirements.txt       # Dépendances Python
+├── .env                  # Configuration API (à créer)
 ├── env_example.txt       # Exemple de configuration
 ├── README.md             # Documentation
+├── INSTRUCTIONS.md       # Guide d'utilisation détaillé
 └── templates/            # Templates HTML
     ├── base.html         # Template de base
     ├── login.html        # Page de connexion
@@ -69,15 +84,27 @@ NBA-Projet-compensatoire/
 
 1. **Connexion** : Créer un compte ou se connecter
 2. **Navigation** : Utiliser le menu pour naviguer entre les sections
-3. **Joueurs** : Consulter la liste des joueurs et cliquer pour voir les détails
-4. **Équipes** : Consulter les équipes et leurs joueurs
-5. **Matchs** : Voir les matchs et leurs détails
+3. **🔍 Recherche** : 
+   - **Joueurs** : Rechercher par prénom ou nom (ex: "Stephen", "Curry")
+   - **Équipes** : Rechercher par nom, ville ou abréviation (ex: "Lakers", "Boston", "GSW")
+   - **Matchs** : Rechercher par date (ex: "2024-01-15", "15/01/2024")
+4. **📊 Détails** : Cliquer sur les cartes pour voir les informations complètes
+5. **🧭 Navigation** : Utiliser "Suivant" pour parcourir toutes les données disponibles
 
 ## ⚠️ Notes importantes
 
-- L'API BallDontLie peut avoir des limitations de taux
+- L'API BallDontLie peut avoir des limitations de taux (5 requêtes par minute en gratuit)
 - Certaines données peuvent ne pas être disponibles pour tous les éléments
 - L'application fonctionne en mode local (pas d'hébergement requis)
+- Pour plus de détails, consulter `INSTRUCTIONS.md`
+
+## 🎮 Fonctionnalités avancées
+
+- **Positions expliquées** : G (Guard/Meneur), F (Forward/Ailier), C (Center/Pivot)
+- **Données complètes** : Université, pays, année de draft, position de draft
+- **Navigation croisée** : Cliquer sur une équipe depuis un joueur, etc.
+- **Interface responsive** : Fonctionne sur mobile et desktop
+- **Recherche intelligente** : Préserve les filtres lors de la navigation
 
 ## 🎯 Projet réalisé dans le cadre
 

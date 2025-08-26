@@ -51,20 +51,6 @@
                         <p class="card-text">
                             <strong>{{ game.date|format_date }}</strong>
                         </p>
-                        <p class="card-text text-muted">
-                            <small>{{ game.home_team.full_name }}</small><br>
-                            <small>vs</small><br>
-                            <small>{{ game.visitor_team.full_name }}</small>
-                        </p>
-                        {% if game.home_team_score is not none and game.visitor_team_score is not none %}
-                            <p class="card-text">
-                                <span class="badge bg-success">{{ game.home_team_score }} - {{ game.visitor_team_score }}</span>
-                            </p>
-                        {% else %}
-                            <p class="card-text">
-                                <span class="badge bg-secondary">Score non disponible</span>
-                            </p>
-                        {% endif %}
                     </div>
                 </div>
             </div>

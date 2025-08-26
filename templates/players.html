@@ -41,45 +41,8 @@
         {% for player in players %}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100" data-href="{{ url_for('player_detail', player_id=player.id) }}">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ player.first_name }} {{ player.last_name }}</h5>
-                        
-                        <div class="row text-center mb-2">
-                            {% if player.jersey_number %}
-                                <div class="col-4">
-                                    <span class="badge bg-primary">#{{ player.jersey_number }}</span>
-                                </div>
-                            {% endif %}
-                            {% if player.position %}
-                                <div class="col-8">
-                                    <span class="badge bg-success">{{ player.position|format_position }}</span>
-                                </div>
-                            {% endif %}
-                            {% if player.height %}
-                                <div class="col-4">
-                                    <small class="text-muted">{{ player.height }}</small>
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <hr>
-                        <small class="text-muted">
-                            {% if player.team %}
-                                <strong>{{ player.team.full_name }}</strong><br>
-                            {% endif %}
-                            {% if player.college %}
-                                🎓 {{ player.college }}<br>
-                            {% endif %}
-                            {% if player.country %}
-                                🌍 {{ player.country }}<br>
-                            {% endif %}
-                            {% if player.draft_year %}
-                                📅 Draft {{ player.draft_year }}
-                                {% if player.draft_round and player.draft_number %}
-                                    (R{{ player.draft_round }}-{{ player.draft_number }})
-                                {% endif %}
-                            {% endif %}
-                        </small>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ player.first_name }} {{ player.last_name }}</h5>
                     </div>
                 </div>
             </div>
