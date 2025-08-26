@@ -395,6 +395,19 @@ def format_position(position):
     return position_names.get(position, position)
 
 if __name__ == '__main__':
+    print("🏀 Démarrage de l'application NBA...")
+    print("📍 Pour arrêter l'application, utilisez Ctrl+C")
+    print("🌐 L'application sera accessible sur: http://localhost:5000")
+    print("=" * 50)
+    
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    
+    # Configuration adaptative : local vs production
+    if os.environ.get('RENDER'):
+        # Configuration pour Render (production)
+        port = int(os.environ.get('PORT', 10000))
+        app.run(host='0.0.0.0', port=port, debug=False)
+    else:
+        # Configuration locale (développement)
+        app.run(debug=True)
